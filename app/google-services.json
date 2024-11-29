@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "767358408920",
+    "project_id": "gloriosa-evolucao",
+    "storage_bucket": "gloriosa-evolucao.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767358408920:android:9538338a723b3b7adadfad",
+        "android_client_info": {
+          "package_name": "com.example.gloriosaevoluo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByWzhVOv4Ys8RtNFX4zYvo9aJo7Y-wd88"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
