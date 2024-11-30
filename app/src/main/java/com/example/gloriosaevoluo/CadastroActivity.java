@@ -26,10 +26,10 @@ public class CadastroActivity extends AppCompatActivity {
         passwordInput = findViewById(R.id.editSenha);
         Button registerButton = findViewById(R.id.btnCriarConta);
 
-        registerButton.setOnClickListener(v -> registerUser());
+        registerButton.setOnClickListener(v -> criarContaFirebase());
     }
 
-    private void registerUser() {
+    private void criarContaFirebase() {
         String email = emailInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
 
@@ -39,18 +39,18 @@ public class CadastroActivity extends AppCompatActivity {
         }
 
         if (password.length() < 6) {
-            Toast.makeText(this, "A senha deve ter pelo menos 6 caracteres!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Senha muito curta", Toast.LENGTH_SHORT).show();
             return;
         }
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(this, "Usuário registrado com sucesso!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Conta criada com sucesso!", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(CadastroActivity.this, LoginActivity.class));
                         finish();
                     } else {
-                        Toast.makeText(this, "Erro no registro: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Erro no cadastro: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

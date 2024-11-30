@@ -1,0 +1,39 @@
+<!-- res/layout/item_speedrun.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/textViewGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="Game" />
+
+    <TextView
+        android:id="@+id/textViewCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Category" />
+
+    <TextView
+        android:id="@+id/textViewPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Player" />
+
+    <TextView
+        android:id="@+id/textViewTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Time" />
+
+    <TextView
+        android:id="@+id/textViewRegion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Region" />
+</LinearLayout>

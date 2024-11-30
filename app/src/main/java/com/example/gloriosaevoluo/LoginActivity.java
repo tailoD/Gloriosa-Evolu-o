@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                 email,senha
         ).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Toast.makeText(this, "pode entrar, chefia", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(LoginActivity.this, TelaPrincipalActivity.class));
 
             }else {
                 Toast.makeText(this, "Ocorreu um erro", Toast.LENGTH_SHORT).show();
