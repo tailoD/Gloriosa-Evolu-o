@@ -11,12 +11,18 @@ public class Speedrun {
 
     private String region;
 
-    public Speedrun(String game, String category, String namePlayer, String time, String region) {
+    private String idUser;
+
+    public Speedrun(String game, String category, String namePlayer, String time, String region, String idUser) {
         this.game = game;
         this.category = category;
         this.namePlayer = namePlayer;
         this.time = time;
         this.region = region;
+        this.idUser = idUser;
+    }
+    public Speedrun() {
+        // Construtor padrão
     }
 
     public String getGame() {
@@ -57,6 +63,14 @@ public class Speedrun {
 
     public void setRegion(String region) {
         this.region =region;
+    }
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser =idUser;
     }
 
 

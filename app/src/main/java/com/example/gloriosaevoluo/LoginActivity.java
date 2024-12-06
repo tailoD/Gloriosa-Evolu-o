@@ -38,8 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
         binding.btnLogin.setOnClickListener(v -> validaDados());
 
-        binding.textRecuperarConta.setOnClickListener(v ->
-                startActivity(new Intent(this, RecuperarContaActivity.class)));
+
 
 
     }
