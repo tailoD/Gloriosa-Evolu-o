@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.gloriosaevoluo.databinding.ActivityCadastroBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class CadastroActivity extends AppCompatActivity {
@@ -15,10 +16,13 @@ public class CadastroActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText emailInput, passwordInput;
 
+    private ActivityCadastroBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro);
+        binding = ActivityCadastroBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -27,6 +31,9 @@ public class CadastroActivity extends AppCompatActivity {
         Button registerButton = findViewById(R.id.btnCriarConta);
 
         registerButton.setOnClickListener(v -> criarContaFirebase());
+
+        binding.bntVolteLogin.setOnClickListener(v ->
+                startActivity(new Intent(CadastroActivity.this, LoginActivity.class)));
     }
 
     private void criarContaFirebase() {
@@ -54,4 +61,5 @@ public class CadastroActivity extends AppCompatActivity {
                     }
                 });
     }
+
 }

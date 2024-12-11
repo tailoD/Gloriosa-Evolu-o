@@ -11,12 +11,14 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.gloriosaevoluo.databinding.ActivityLoginBinding;
+import com.example.gloriosaevoluo.databinding.ActivityRegistrarSpeedrunBinding;
+import com.example.gloriosaevoluo.databinding.ActivityTelaPrincipalBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegistrarSpeedrunActivity extends AppCompatActivity {
-
     private EditText gameInput;
     private EditText categoryInput;
     private EditText playerNameInput;
@@ -24,13 +26,16 @@ public class RegistrarSpeedrunActivity extends AppCompatActivity {
     private EditText regionInput;
     private Button registerButton;
 
+    private ActivityRegistrarSpeedrunBinding binding;
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_registrar_speedrun);
+        binding = ActivityRegistrarSpeedrunBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         gameInput = findViewById(R.id.game_input);
         categoryInput = findViewById(R.id.category_input);
@@ -38,14 +43,14 @@ public class RegistrarSpeedrunActivity extends AppCompatActivity {
         timeInput = findViewById(R.id.time_input);
         regionInput = findViewById(R.id.region_input);
         registerButton = findViewById(R.id.register_button);
-
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 registerSpeedrun();
             }
         });
-
+        binding.btnRetornar.setOnClickListener(v ->
+                startActivity(new Intent(this, TelaPrincipalActivity.class)));
     }
 
     private void registerSpeedrun() {
@@ -76,4 +81,3 @@ public class RegistrarSpeedrunActivity extends AppCompatActivity {
                 });
     }
 }
-

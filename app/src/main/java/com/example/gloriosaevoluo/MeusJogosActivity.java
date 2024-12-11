@@ -1,17 +1,16 @@
 package com.example.gloriosaevoluo;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gloriosaevoluo.databinding.ActivityMeusJogosBinding;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -20,52 +19,46 @@ import java.util.List;
 
 public class MeusJogosActivity extends AppCompatActivity {
 
-    private EditText editTextUserId;  // Campo para inserir o userId
     private RecyclerView recyclerView;
     private SpeedrunAdapter adapter;
-    private List<Speedrun> allSpeedruns;
     private List<Speedrun> filteredList;
 
-    private Button buttonSearch;
     private FirebaseFirestore db;
+    private FirebaseAuth auth;
+
+    private ActivityMeusJogosBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_meus_jogos);  // Alterado para o layout novo
+        binding = ActivityMeusJogosBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         // Inicializa os componentes
-        editTextUserId = findViewById(R.id.editTextUserId);
         recyclerView = findViewById(R.id.recyclerView);
-        buttonSearch = findViewById(R.id.buttonSearchUserId);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         filteredList = new ArrayList<>();
-        allSpeedruns = new ArrayList<>();
         adapter = new SpeedrunAdapter(filteredList);
         recyclerView.setAdapter(adapter);
 
-        // Configura o botão de pesquisa
-        buttonSearch.setOnClickListener(v -> onSearchUserId());
-    }
+        binding.btnVoltar.setOnClickListener(v ->
+                startActivity(new Intent(this, TelaPrincipalActivity.class)));
 
-    // Método para pesquisar speedruns com base no userId
-    public void onSearchUserId() {
-        String userId = editTextUserId.getText().toString().trim();
 
-        if (TextUtils.isEmpty(userId)) {
-            // Exibe mensagem se o campo estiver vazio
-            Toast.makeText(this, "Por favor, insira um User ID válido", Toast.LENGTH_SHORT).show();
-            return;
+        // Obtém o userId do usuário autenticado
+        String userId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
+
+        if (userId != null) {
+            // Busca os speedruns do usuário autenticado
+            fetchSpeedrunsByUserId(userId);
+        } else {
+            Toast.makeText(this, "Usuário não autenticado", Toast.LENGTH_SHORT).show();
         }
-
-        filteredList.clear();  // Limpa a lista filtrada
-
-        // Busca no Firestore usando o userId fornecido
-        fetchSpeedrunsByUserId(userId);
     }
 
     // Método que busca as speedruns do Firestore com base no userId
@@ -77,23 +70,19 @@ public class MeusJogosActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Verifica se algum documento foi retornado
                         if (task.getResult().isEmpty()) {
-                            Toast.makeText(MeusJogosActivity.this, "Nenhuma speedrun encontrada para este User ID", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MeusJogosActivity.this, "Nenhuma speedrun encontrada para este usuário", Toast.LENGTH_SHORT).show();
                         }
                         for (DocumentSnapshot document : task.getResult().getDocuments()) {
                             Speedrun speedrun = document.toObject(Speedrun.class);
                             if (speedrun != null) {
                                 filteredList.add(speedrun);
-                                Log.d("MeusJogos", "Speedrun encontrada: " + speedrun.getGame()); // Log de depuração
                             }
                         }
                         // Atualiza a interface com os dados encontrados
                         adapter.notifyDataSetChanged();
                     } else {
                         Toast.makeText(MeusJogosActivity.this, "Erro ao buscar speedruns: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.e("MeusJogos", "Erro na consulta", task.getException()); // Log de erro
                     }
                 });
     }
-
-
 }

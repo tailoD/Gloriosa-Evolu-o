@@ -41,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+
+
     }
     private void validaDados(){
         String email = binding.editEmail.getText().toString().trim();

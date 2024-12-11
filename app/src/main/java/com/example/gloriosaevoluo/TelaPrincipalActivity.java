@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gloriosaevoluo.databinding.ActivityTelaPrincipalBinding;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -27,16 +28,16 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     private SpeedrunAdapter adapter;
     private List<Speedrun> allSpeedruns;
     private List<Speedrun> filteredList;
-    private Button buttonSearch;
 
-    private Button bntMeusJogos;
+    private ActivityTelaPrincipalBinding binding;
 
     private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tela_principal);
+        binding = ActivityTelaPrincipalBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         Button btnRegister = findViewById(R.id.btn_register);
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -52,8 +53,6 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
         editTextSearch = findViewById(R.id.editTextSearch);
         recyclerView = findViewById(R.id.recyclerView);
-        buttonSearch = findViewById(R.id.buttonSearch);
-        bntMeusJogos = findViewById(R.id.bntMeusJogos);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
@@ -64,20 +63,18 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         adapter = new SpeedrunAdapter(filteredList);
         recyclerView.setAdapter(adapter);
 
-
-
         // Fetch speedruns from Firestore
         fetchSpeedruns();
 
-        buttonSearch.setOnClickListener(v -> onSearch());
-        bntMeusJogos.setOnClickListener(v ->
+        binding.buttonSearch.setOnClickListener(v -> onSearch());
+        binding.bntMeusJogos.setOnClickListener(v ->
                 startActivity(new Intent(TelaPrincipalActivity.this, MeusJogosActivity.class)));
+        binding.btnSair.setOnClickListener(v ->
+                startActivity(new Intent(TelaPrincipalActivity.this, LoginActivity.class)));
     }
     private void fetchSpeedruns() {
 
-        String userId = null;
         db.collection("speedrun")
-                //.whereEqualTo("userId", userId) // Filter by userId field
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
